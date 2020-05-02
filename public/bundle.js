@@ -8170,7 +8170,7 @@ function config (name) {
 let Peer = require('simple-peer');
 let socket = io();
 const ourVideo = document.querySelector('video');
-let clientVideo = {};
+let client = {};
 
 
 /**
@@ -8201,7 +8201,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
              * Peer event, on close hence closes video 
              */
             peer.on('close', function () {
-                document.getElementById('peer-video').remove();
+                document.getElementById('peerVideo').remove();
                 peer.destroy();
             });
 
@@ -8209,6 +8209,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function createClient() {
+            console.log("test");
             client.isNewClient = true;
             let peer = initPeer('init');
             peer.on('signal', (data) => {
@@ -8224,6 +8225,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
          * Client Responses to request it initated when ackowledgement came from server.
         */
         function clientResponse(data) {
+            console.log("test1");
             let peer = initPeer('not-init');
             peer.on('signal', (data) => {
                 socket.emit('Response', data);
@@ -8244,7 +8246,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         function createVideo(stream) {
             let video = document.createElement('video');
-            video.id = 'peer-video';
+            video.id = 'peerVideo';
             video.srcObject = stream;
             video.setAttribute('class', 'embed-responsive-item');
             document.querySelector('#peerElement').appendChild(video);
@@ -8257,7 +8259,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function removeVideo() {
-            document.getElementById('peer-video').remove();
+            document.getElementById('peerVideo').remove();
         }
 
         socket.on('CreateClient', createClient);
