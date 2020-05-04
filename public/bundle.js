@@ -8180,7 +8180,6 @@ let client = {};
 navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .then(stream => {
         socket.emit('new-client');
-        console.log(stream);
         ourVideo.srcObject = stream;
         ourVideo.play();
         /**
@@ -8189,7 +8188,6 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
          */
         function initPeer(type) {
             let peer = new Peer({ initiator: (type == "init") ? true : false, stream: stream, trickle: false });
-            console.log(peer);
             /**
              * peer event, if stream create a new video
              */
@@ -8209,7 +8207,6 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function createClient() {
-            console.log("test");
             client.isNewClient = true;
             let peer = initPeer('init');
             peer.on('signal', (data) => {
@@ -8225,7 +8222,6 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
          * Client Responses to request it initated when ackowledgement came from server.
         */
         function clientResponse(data) {
-            console.log("test1");
             let peer = initPeer('not-init');
             peer.on('signal', (data) => {
                 socket.emit('Response', data);
@@ -8245,6 +8241,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         }
 
         function createVideo(stream) {
+            
             let video = document.createElement('video');
             video.id = 'peerVideo';
             video.srcObject = stream;
@@ -8271,4 +8268,5 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
     .catch(err => {
         document.write(err);
     })
+
 },{"simple-peer":27}]},{},[34]);
